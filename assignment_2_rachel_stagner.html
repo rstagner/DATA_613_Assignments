@@ -162,6 +162,26 @@ $ ICLEVEL        &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 2, 1, 1, 2, 2, 1, 
 </div>
 <p><strong>Using either method, we find out that there are 7175 rows and 12 columms in this dataframe.</strong></p>
 </section>
+<section id="task-3" class="level2">
+<h2 class="anchored" data-anchor-id="task-3">Task 3</h2>
+<p><strong>To create a new dataframe with only certain columns, we can use the dplyr command “select” to choose the requested columns: INSTNM, SAT_AVG, and ADM_RATE.</strong></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">#create a new dataframe that has the requested columns</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>admission_rates <span class="ot">&lt;-</span> college_data <span class="sc">|&gt;</span> <span class="fu">select</span>(INSTNM, SAT_AVG, ADM_RATE)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><strong>I like to confirm that everything worked as I wanted by running the head or glimpse command to verify.</strong></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">#confirming the new dataframe:</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(admission_rates)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 7,175
+Columns: 3
+$ INSTNM   &lt;chr&gt; "Alabama A &amp; M University", "University of Alabama at Birming…
+$ SAT_AVG  &lt;dbl&gt; 849, 1125, NA, 1257, 825, 1202, NA, NA, 1009, 1217, 1150, NA,…
+$ ADM_RATE &lt;dbl&gt; 0.8738, 0.5814, NA, 0.7628, 0.4590, 0.5259, NA, NA, 0.7659, 0…</code></pre>
+</div>
+</div>
+</section>
 
 </main>
 <!-- /main column -->

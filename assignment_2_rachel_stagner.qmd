@@ -30,3 +30,20 @@ glimpse(college_data) #view the rows and column information for the dataframe
 ```
 
 **Using either method, we find out that there are 7175 rows and 12 columms in this dataframe.**
+
+## Task 3 
+
+**To create a new dataframe with only certain columns, we can use the dplyr command "select" to choose the requested columns: INSTNM, SAT_AVG, and ADM_RATE.**
+
+```{r}
+#create a new dataframe that has the requested columns
+admission_rates <- college_data |> select(INSTNM, SAT_AVG, ADM_RATE)
+```
+
+**I like to confirm that everything worked as I wanted by running the head or glimpse command to verify.**
+
+```{r}
+#confirming the new dataframe:
+glimpse(admission_rates)
+```
+
