@@ -123,7 +123,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse) <span class="co">#load tidyverse library</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p><strong>Then, I used the readr package to load the college.data.csv file into an object called college_data.</strong></p>
+<p><strong>Then, I used the readr package to load the college.data.csv file into an object called college_data with the <code>read_csv()</code> command</strong></p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>college_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"./data/collegedata.csv"</span>) <span class="co">#load collegedata.csv</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
@@ -140,7 +140,7 @@ dbl (8): UNITID, OPEID, SAT_AVG, ADM_RATE, UGDS, COSTT4_A, AVGFACSAL, ICLEVEL
 </section>
 <section id="task-2" class="level2">
 <h2 class="anchored" data-anchor-id="task-2">Task 2</h2>
-<p><strong>Even though the read_csv command gives you a message with the number of rows and columns, you can also use the dplyr command “glimpse” to see these details:</strong></p>
+<p><strong>Even though the <code>read_csv()</code> command gives you a message with the number of rows and columns, you can also use the dplyr command <code>glimpse()</code> to see these details:</strong></p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(college_data) <span class="co">#view the rows and column information for the dataframe</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -164,12 +164,12 @@ $ ICLEVEL        &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 2, 1, 1, 2, 2, 1, 
 </section>
 <section id="task-3" class="level2">
 <h2 class="anchored" data-anchor-id="task-3">Task 3</h2>
-<p><strong>To create a new dataframe with only certain columns, we can use the dplyr command “select” to choose the requested columns: INSTNM, SAT_AVG, and ADM_RATE.</strong></p>
+<p><strong>To create a new dataframe with only certain columns, we can use the dplyr command <code>select()</code> to choose the requested columns: INSTNM, SAT_AVG, and ADM_RATE.</strong></p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">#create a new dataframe that has the requested columns</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>admission_rates <span class="ot">&lt;-</span> college_data <span class="sc">|&gt;</span> <span class="fu">select</span>(INSTNM, SAT_AVG, ADM_RATE)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p><strong>I like to confirm that everything worked as I wanted by running the head or glimpse command to verify.</strong></p>
+<p><strong>I like to confirm that everything worked as I wanted by running the <code>head()</code> or <code>glimpse()</code> command to verify.</strong></p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">#confirming the new dataframe:</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(admission_rates)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -179,6 +179,40 @@ Columns: 3
 $ INSTNM   &lt;chr&gt; "Alabama A &amp; M University", "University of Alabama at Birming…
 $ SAT_AVG  &lt;dbl&gt; 849, 1125, NA, 1257, 825, 1202, NA, NA, 1009, 1217, 1150, NA,…
 $ ADM_RATE &lt;dbl&gt; 0.8738, 0.5814, NA, 0.7628, 0.4590, 0.5259, NA, NA, 0.7659, 0…</code></pre>
+</div>
+</div>
+</section>
+<section id="task-4" class="level2">
+<h2 class="anchored" data-anchor-id="task-4">Task 4</h2>
+<p><strong>First, I created a new dataframe with the NA rows removed, using the <code>drop_na()</code> command from the tidyr package, and <code>glimpse()</code> to confirm my changes.</strong></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>cleaned_data <span class="ot">&lt;-</span> admission_rates <span class="sc">|&gt;</span> <span class="fu">drop_na</span>() <span class="co">#drop rows with NA values</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(cleaned_data) <span class="co">#confirm dropped values</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 1,301
+Columns: 3
+$ INSTNM   &lt;chr&gt; "Alabama A &amp; M University", "University of Alabama at Birming…
+$ SAT_AVG  &lt;dbl&gt; 849, 1125, 1257, 825, 1202, 1009, 1217, 1150, 972, 1001, 1062…
+$ ADM_RATE &lt;dbl&gt; 0.8738, 0.5814, 0.7628, 0.4590, 0.5259, 0.7659, 0.8054, 0.483…</code></pre>
+</div>
+</div>
+<p><strong>Then, I used <code>ggplot()</code> from the ggplot2 library to create a scatter plot of Average SAT scores versus Admission Rates. I styled it a bit with blue points and the black and white theme, and added axes labels and a title and subtitle.</strong></p>
+<p><strong>Interestingly, it took me a minute to figure out what this data was telling me, but when I thought about it, it makes sense. The higher the school’s average SAT score, the lower their admission rate due to their high selectivity.</strong></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co">#create a new plot of SAT scores versus admission rate</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(cleaned_data, <span class="fu">aes</span>(<span class="at">x =</span> SAT_AVG, <span class="at">y =</span> ADM_RATE)) <span class="sc">+</span> <span class="co">#create the plot</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color=</span><span class="st">"blue"</span>) <span class="sc">+</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Average SAT Score"</span>, <span class="co">#apply labels</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Admission Rate"</span>, </span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Average SAT Scores versus Admission Rates"</span>,</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">"Each point is an individual college or university"</span>) <span class="sc">+</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="co">#apply theme</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="assignment_2_rachel_stagner_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>

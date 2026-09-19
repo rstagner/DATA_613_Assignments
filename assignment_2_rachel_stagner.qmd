@@ -15,7 +15,7 @@ format: html
 library(tidyverse) #load tidyverse library
 ```
 
-**Then, I used the readr package to load the college.data.csv file into an object called college_data.** 
+**Then, I used the readr package to load the college.data.csv file into an object called college_data with the `read_csv()` command** 
 
 ```{r}
 college_data <- read_csv("./data/collegedata.csv") #load collegedata.csv
@@ -23,7 +23,7 @@ college_data <- read_csv("./data/collegedata.csv") #load collegedata.csv
 
 ## Task 2
 
-**Even though the read_csv command gives you a message with the number of rows and columns, you can also use the dplyr command "glimpse" to see these details:**
+**Even though the `read_csv()` command gives you a message with the number of rows and columns, you can also use the dplyr command `glimpse()` to see these details:**
 
 ```{r}
 glimpse(college_data) #view the rows and column information for the dataframe
@@ -33,17 +33,40 @@ glimpse(college_data) #view the rows and column information for the dataframe
 
 ## Task 3 
 
-**To create a new dataframe with only certain columns, we can use the dplyr command "select" to choose the requested columns: INSTNM, SAT_AVG, and ADM_RATE.**
+**To create a new dataframe with only certain columns, we can use the dplyr command `select()` to choose the requested columns: INSTNM, SAT_AVG, and ADM_RATE.**
 
 ```{r}
 #create a new dataframe that has the requested columns
 admission_rates <- college_data |> select(INSTNM, SAT_AVG, ADM_RATE)
 ```
 
-**I like to confirm that everything worked as I wanted by running the head or glimpse command to verify.**
+**I like to confirm that everything worked as I wanted by running the `head()` or `glimpse()` command to verify.**
 
 ```{r}
 #confirming the new dataframe:
 glimpse(admission_rates)
+```
+
+## Task 4
+
+**First, I created a new dataframe with the NA rows removed, using the `drop_na()` command from the tidyr package, and `glimpse()` to confirm my changes.**
+
+```{r}
+cleaned_data <- admission_rates |> drop_na() #drop rows with NA values
+glimpse(cleaned_data) #confirm dropped values
+```
+
+**Then, I used `ggplot()` from the ggplot2 library to create a scatter plot of Average SAT scores versus Admission Rates. I styled it a bit with blue points and the black and white theme, and added axes labels and a title and subtitle.**
+
+**Interestingly, it took me a minute to figure out what this data was telling me, but when I thought about it, it makes sense.  The higher the school's average SAT score, the lower their admission rate due to their high selectivity.**
+```{r}
+#create a new plot of SAT scores versus admission rate
+  ggplot(cleaned_data, aes(x = SAT_AVG, y = ADM_RATE)) + #create the plot
+  geom_point(color="blue") +
+  labs(x = "Average SAT Score", #apply labels
+       y = "Admission Rate", 
+       title = "Average SAT Scores versus Admission Rates",
+       subtitle = "Each point is an individual college or university") +
+  theme_bw() #apply theme
 ```
 
