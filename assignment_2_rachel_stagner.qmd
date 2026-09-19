@@ -7,27 +7,26 @@ format: html
 ---
 
 ## Task 1
-To complete this task, first I loaded the tidyverse library. 
+
+**To complete this task, first I loaded the tidyverse library.**
 
 ```{r}
 #| message: false
 library(tidyverse) #load tidyverse library
 ```
 
-Then, I used the readr package to load the college.data.csv file into an object called college_data.  
+**Then, I used the readr package to load the college.data.csv file into an object called college_data.** 
 
 ```{r}
 college_data <- read_csv("./data/collegedata.csv") #load collegedata.csv
 ```
 
+## Task 2
 
-
-
-You can add options to executable code like this 
+**Even though the read_csv command gives you a message with the number of rows and columns, you can also use the dplyr command "glimpse" to see these details:**
 
 ```{r}
-#| echo: false
-2 * 2
+glimpse(college_data) #view the rows and column information for the dataframe
 ```
 
-The `echo: false` option disables the printing of code (only output is displayed).
+**Using either method, we find out that there are 7175 rows and 12 columms in this dataframe.**

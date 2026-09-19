@@ -119,11 +119,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="task-1" class="level2">
 <h2 class="anchored" data-anchor-id="task-1">Task 1</h2>
-<p>To complete this task, first I loaded the tidyverse library.</p>
+<p><strong>To complete this task, first I loaded the tidyverse library.</strong></p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse) <span class="co">#load tidyverse library</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>Then, I used the readr package to load the college.data.csv file into an object called college_data.</p>
+<p><strong>Then, I used the readr package to load the college.data.csv file into an object called college_data.</strong></p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>college_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"./data/collegedata.csv"</span>) <span class="co">#load collegedata.csv</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
@@ -137,13 +137,30 @@ dbl (8): UNITID, OPEID, SAT_AVG, ADM_RATE, UGDS, COSTT4_A, AVGFACSAL, ICLEVEL
 ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 </div>
 </div>
-<p>You can add options to executable code like this</p>
+</section>
+<section id="task-2" class="level2">
+<h2 class="anchored" data-anchor-id="task-2">Task 2</h2>
+<p><strong>Even though the read_csv command gives you a message with the number of rows and columns, you can also use the dplyr command “glimpse” to see these details:</strong></p>
 <div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(college_data) <span class="co">#view the rows and column information for the dataframe</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 4</code></pre>
+<pre><code>Rows: 7,175
+Columns: 12
+$ UNITID         &lt;dbl&gt; 100654, 100663, 100690, 100706, 100724, 100751, 100760,…
+$ OPEID          &lt;dbl&gt; 100200, 105200, 2503400, 105500, 100500, 105100, 100700…
+$ MN_EARN_WNE_P6 &lt;chr&gt; "27800", "37600", "39400", "41300", "23500", "38500", "…
+$ INSTNM         &lt;chr&gt; "Alabama A &amp; M University", "University of Alabama at B…
+$ SAT_AVG        &lt;dbl&gt; 849, 1125, NA, 1257, 825, 1202, NA, NA, 1009, 1217, 115…
+$ ADM_RATE       &lt;dbl&gt; 0.8738, 0.5814, NA, 0.7628, 0.4590, 0.5259, NA, NA, 0.7…
+$ UGDS           &lt;dbl&gt; 4616, 12047, 293, 6346, 4704, 31663, 1492, 2888, 4171, …
+$ COSTT4_A       &lt;dbl&gt; 22667, 22684, 13380, 22059, 19242, 28422, 13868, NA, 19…
+$ AVGFACSAL      &lt;dbl&gt; 7028, 10517, 3857, 9463, 7952, 9802, 5960, 8367, 7251, …
+$ GRAD_DEBT_MDN  &lt;chr&gt; "32750", "21833", "22890", "22647", "31500", "23290", "…
+$ AGE_ENTRY      &lt;chr&gt; "20.28374137", "23.60797466", "33.6722973", "22.7279196…
+$ ICLEVEL        &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 2, 1, 1, 2, 2, 1, 2, 3…</code></pre>
 </div>
 </div>
-<p>The <code>echo: false</code> option disables the printing of code (only output is displayed).</p>
+<p><strong>Using either method, we find out that there are 7175 rows and 12 columms in this dataframe.</strong></p>
 </section>
 
 </main>
