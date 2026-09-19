@@ -1,0 +1,33 @@
+---
+title: "Assignment 2"
+author: "Rachel Stagner"
+date: today
+date-format: medium
+format: html
+---
+
+## Task 1
+To complete this task, first I loaded the tidyverse library. 
+
+```{r}
+#| message: false
+library(tidyverse) #load tidyverse library
+```
+
+Then, I used the readr package to load the college.data.csv file into an object called college_data.  
+
+```{r}
+college_data <- read_csv("./data/collegedata.csv") #load collegedata.csv
+```
+
+
+
+
+You can add options to executable code like this 
+
+```{r}
+#| echo: false
+2 * 2
+```
+
+The `echo: false` option disables the printing of code (only output is displayed).
