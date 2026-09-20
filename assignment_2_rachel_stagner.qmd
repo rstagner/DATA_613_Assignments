@@ -3,7 +3,7 @@ title: "Assignment 2"
 author: "Rachel Stagner"
 date: today
 date-format: medium
-format: html
+format: pdf
 ---
 
 ## Task 1
