@@ -1,0 +1,70 @@
+---
+title: "Tidyverse Solution"
+author: "Rachel Stagner"
+date: today
+format: 
+  html:
+    embed-resources: True
+editor: visual
+---
+
+```{r}
+#| message: false
+#| warning: false
+if(!require("pacman")) install.packages("pacman")
+pacman::p_load(tidyverse, gapminder, broom)
+```
+
+
+## Problem 1
+
+We were asked to create a dataframe, `df`, using the following code:
+
+```{r}
+tribble( ~x,    ~y,    ~w,    ~z,
+              210,   300,   220,   180,
+              102,   100,   119,   187,
+              176,   175,   188,   173,
+              87,    95,   91,     94,
+              202,   210,  234,    218,
+              110,   122,  131,    128,
+) -> dt
+```
+
+### 1a.  
+
+Use the `map()` function from the `purr` package in tidyverse to find the mean of each column of the dataframe `dt`.
+
+```{r}
+dt_mean <- map(dt, mean) #uses the 'map' function to find the mean 
+dt_mean #prints the mean
+```
+
+### 1b.
+
+Use the `map()` function to find the standard deviation of each column in the dataframe `dt`.
+
+```{r}
+dt_sd <- map (dt, sd) #uses 'map' to find the sd of each column
+dt_sd #print the result
+```
+
+### 1c.
+
+Use the `map_df()` function to calculate the square root for each value in the dataframe `dt`. This function returns the results in another dataframe. 
+
+```{r}
+dt_sqrt <- map_df(dt, sqrt) #find the square root of each value
+dt_sqrt #print the resulting df
+```
+
+### 1d.
+
+Use the `summary()` function to find the min, max, mean, median, 1st and 3rd quartile of the columns of the dataframe.  This is a base R function.  
+
+```{r}
+summary(dt) #use the summary function in base r to calculate summary stats for dt
+
+```
+
+The `echo: false` option disables the printing of code (only output is displayed).
