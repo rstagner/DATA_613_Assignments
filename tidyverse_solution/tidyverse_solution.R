@@ -155,3 +155,26 @@ date_differences <- data.frame(
 )
 
 date_differences #printing the df
+
+#Question 6
+
+date_strings <- list("2023-06-10", "2022/12/25", "15-Aug-2021", "InvalidDate")
+
+safe_dates <- possibly(parse_date_time, otherwise = NA) #use possibly to replace error with NA
+
+#get the fixed dates using map and the new "safe" function
+converted_dates <- map(date_strings,safe_dates, orders = c("ymd", "dmy"))
+
+converted_dates #confirm the results
+
+date_vector <- as_date(list_c(converted_dates)) #convert the list into a date vector
+
+class(date_vector) #confirm that it's now a date vector
+
+#compile the results in a df
+final_table <- data.frame(
+  date = date_vector,
+  month_name = month(date_vector, label = TRUE, abbr = FALSE) #pulls out the month
+)
+
+final_table #print the table

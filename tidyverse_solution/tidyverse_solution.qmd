@@ -32,7 +32,7 @@ tribble( ~x,    ~y,    ~w,    ~z,
 
 ### 1a.
 
-Use the `map()` function from the `purr` package in tidyverse to find the mean of each column of the dataframe `dt`.
+Use the `map()` function from the `purrr` package in tidyverse to find the mean of each column of the dataframe `dt`.
 
 ```{r}
 dt_mean <- map(dt, mean) #uses the 'map' function to find the mean 
@@ -96,7 +96,7 @@ exp_means_loop() #prints the results
 
 ### Problem 2a
 
-For 2a, we were asked to replace the for loop with a `map()` function from the `purr` package in tidyverse. I also increased the number of reps to 10,000 as the original problem asked:
+For 2a, we were asked to replace the for loop with a `map()` function from the `purrr` package in tidyverse. I also increased the number of reps to 10,000 as the original problem asked:
 
 ```{r}
 #adding the map function and upping the reps to 10000
@@ -196,9 +196,9 @@ head(date_table) #prints the first few rows of the resulting table to confirm
 
 ## Problem 5
 
-This was a very challenging problem for me.  We didn't learn much about lubridate in Data 612. I had to search extensively in the class notes, and then seek help online for some of the commands (full disclosure). I have a better understanding of lubridate by completing this problem, but I am also not sure if there is a better way to present the final answer other than in decimals. I tried to use `as.period` for the final table, but this did not seem to work.
+For this problem, we were given a list of sample date and asked to compute the difference in month and weeks between consecutive pairs.
 
-My final answer is below.  
+This was a very challenging problem for me.  We didn't learn much about lubridate in Data 612. I had to search extensively in the class notes, and then seek help online for some of the commands (full disclosure). I have a better understanding of lubridate by completing this problem, but I am also not sure if there is a better way to present the final answer other than in decimals. I tried to use `as.period` for the final table, but this did not seem to work.
 
 ```{r}
 #Question 5
@@ -227,5 +227,36 @@ date_differences <- data.frame(
 )
 
 date_differences #printing the df
+```
+
+## Problem 6
+
+In this problem, we were given a list of mixed date formats and asked to use `map()` and `possibly()` from the `purrr` package to convert them to date format and extract the month name.  
+
+Another fairly challenging problem for me. `Possibly()` is a new function for me, and useful once I figured out how to use it. 
+
+```{r}
+#Question 6
+
+date_strings <- list("2023-06-10", "2022/12/25", "15-Aug-2021", "InvalidDate")
+
+safe_dates <- possibly(parse_date_time, otherwise = NA) #use possibly to replace error with NA
+
+#get the fixed dates using map and the new "safe" function
+converted_dates <- map(date_strings,safe_dates, orders = c("ymd", "dmy"))
+
+converted_dates #confirm the results
+
+date_vector <- as_date(list_c(converted_dates)) #convert the list into a date vector
+
+class(date_vector) #confirm that it's now a date vector
+
+#compile the results in a df
+final_table <- data.frame(
+  date = date_vector,
+  month_name = month(date_vector, label = TRUE, abbr = FALSE) #pulls out the month
+)
+
+final_table #print the table
 ```
 
