@@ -128,3 +128,30 @@ date_table <- data.frame(
 )
 
 head(date_table) #prints the first few rows of the resulting table to confirm 
+
+#Question 5
+
+sample_dates <- c("2018-03-15", "2020-07-20", "2023-01-10", "2025-09-05")
+
+new_dates <- ymd(sample_dates) #convert to dates
+
+class(new_dates) #confirm the class is "date"
+
+start_dates <- new_dates[-4] #make a vector of the start dates
+end_dates <- new_dates[-1] #made a vector of the end dates
+
+time_spans <- interval(start_dates, end_dates) #use the interval function to calculate
+time_spans #confirm it works
+
+month_difference <- time_length(time_spans, "month") #convert time_spans to months
+weeks_between <- time_length(time_spans, "week") #convert time_spans to weeks
+
+#create a df to store all the values
+date_differences <- data.frame(
+  starting_date = start_dates,
+  ending_date = end_dates,
+  months_between = round(month_difference, 1), #rounding to 1 decimal place
+  weeks_between = round(weeks_between, 1)
+)
+
+date_differences #printing the df

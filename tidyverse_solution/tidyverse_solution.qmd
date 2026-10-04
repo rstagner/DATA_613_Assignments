@@ -193,3 +193,39 @@ date_table <- data.frame(
 
 head(date_table) #prints the first few rows of the resulting table to confirm 
 ```
+
+## Problem 5
+
+This was a very challenging problem for me.  We didn't learn much about lubridate in Data 612. I had to search extensively in the class notes, and then seek help online for some of the commands (full disclosure). I have a better understanding of lubridate by completing this problem, but I am also not sure if there is a better way to present the final answer other than in decimals. I tried to use `as.period` for the final table, but this did not seem to work.
+
+My final answer is below.  
+
+```{r}
+#Question 5
+
+sample_dates <- c("2018-03-15", "2020-07-20", "2023-01-10", "2025-09-05")
+
+new_dates <- ymd(sample_dates) #convert to dates
+
+class(new_dates) #confirm the class is "date"
+
+start_dates <- new_dates[-4] #make a vector of the start dates
+end_dates <- new_dates[-1] #made a vector of the end dates
+
+time_spans <- interval(start_dates, end_dates) #use the interval function to calculate
+time_spans #confirm it works
+
+month_difference <- time_length(time_spans, "month") #convert time_spans to months
+weeks_between <- time_length(time_spans, "week") #convert time_spans to weeks
+
+#create a df to store all the values
+date_differences <- data.frame(
+  starting_date = start_dates,
+  ending_date = end_dates,
+  months_between = round(month_difference, 1), #rounding to 1 decimal place
+  weeks_between = round(weeks_between, 1)
+)
+
+date_differences #printing the df
+```
+
