@@ -111,3 +111,20 @@ for (i in seq_along(mtcars)) {      #I learned the fcn seq_along is to find posi
 }
 names(q3_output) <- names(mtcars) #labels the vector columns with the original column names from the df
 q3_output
+
+#Question 4
+
+start_date <- mdy("01-01-2015") #create the start date
+end_date <- mdy("12-31-2025") #creates the end date
+
+dates <- seq(start_date, end_date, by = "2 months") #creates the sequence
+
+#create a df that will extract each of the required information for each date
+date_table <- data.frame(
+  date = dates,
+  year = year(dates),
+  quarter = quarter(dates),
+  ISO_week = isoweek(dates)
+)
+
+head(date_table) #prints the first few rows of the resulting table to confirm 

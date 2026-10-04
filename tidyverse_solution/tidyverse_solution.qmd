@@ -68,7 +68,7 @@ summary(dt) #use the summary function in base r to calculate summary stats for d
 
 ## Problem 2
 
-To see what was happening in this problem, I followed the provided solution to build a function that used a for loop to create a small numeric vector of 10 values according to the instructions.  
+To see what was happening in this problem, I followed the provided solution to build a function that used a for loop to create a small numeric vector of 10 values according to the instructions.
 
 ```{r}
 #making the example solution loop function with 10 reps 
@@ -121,7 +121,7 @@ exp_means_loop_2a()
 
 ### Problem 2b
 
-Next, we were asked to use the `replicate()` function from Base R.  
+Next, we were asked to use the `replicate()` function from Base R.
 
 ```{r}
 #2b using a replicate function
@@ -145,7 +145,7 @@ exp_means_loop_2b()
 
 ### Problem 2c
 
-Finally, we were asked to use another for loop that would print out histograms for sample sizes of 5, 10, and 20.  To do this, I wrapped the function in another for loop. I chose to use the function from problem 2a, aka the `map()` function, to complete this step.  
+Finally, we were asked to use another for loop that would print out histograms for sample sizes of 5, 10, and 20. To do this, I wrapped the function in another for loop. I chose to use the function from problem 2a, aka the `map()` function, to complete this step.
 
 ```{r}
 #2c using for loops for samples of 5, 10, 20
@@ -160,7 +160,7 @@ for (n in c(5, 10, 20)) {
 
 ## Problem 3
 
-In this problem, we were taught the "Special For Loop Method." I used the template to create the code that replaces `df` with the `mtcars` dataframe and the `mean()` function with `sd()` as the problem requires. 
+In this problem, we were taught the "Special For Loop Method." I used the template to create the code that replaces `df` with the `mtcars` dataframe and the `mean()` function with `sd()` as the problem requires.
 
 ```{r}
 q3_output <- vector("double", ncol(mtcars)) #creates the vector with same # of columns
@@ -171,3 +171,25 @@ names(q3_output) <- names(mtcars) #labels the columns with the original column n
 q3_output
 ```
 
+## Problem 4
+
+In this problem, we were asked to *"Generate a sequence of dates from January 1, 2015 to December 31, 2025, spaced by every two months. Extract the year, quarter, and ISO week number for each date."*
+
+```{r}
+#Question 4
+
+start_date <- mdy("01-01-2015") #create the start date
+end_date <- mdy("12-31-2025") #create the end date
+
+dates <- seq(start_date, end_date, by = "2 months") #creates the sequence
+
+#create a df that will extract the required information for each date
+date_table <- data.frame(
+  date = dates,
+  year = year(dates),
+  quarter = quarter(dates),
+  ISO_week = isoweek(dates)
+)
+
+head(date_table) #prints the first few rows of the resulting table to confirm 
+```
