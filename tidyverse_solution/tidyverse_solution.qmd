@@ -148,7 +148,7 @@ exp_means_loop_2b()
 Finally, we were asked to use another for loop that would print out histograms for sample sizes of 5, 10, and 20.  To do this, I wrapped the function in another for loop. I chose to use the function from problem 2a, aka the `map()` function, to complete this step.  
 
 ```{r}
-#3b using for loops for samples of 5, 10, 20
+#2c using for loops for samples of 5, 10, 20
 
 #create a loop that runs the function from 2a (with the map function) with
 #the requested number of reps 
@@ -158,5 +158,16 @@ for (n in c(5, 10, 20)) {
 }
 ```
 
+## Problem 3
 
-The `echo: false` option disables the printing of code (only output is displayed).
+In this problem, we were taught the "Special For Loop Method." I used the template to create the code that replaces `df` with the `mtcars` dataframe and the `mean()` function with `sd()` as the problem requires. 
+
+```{r}
+q3_output <- vector("double", ncol(mtcars)) #creates the vector with same # of columns
+for (i in seq_along(mtcars)) {      #moves the function through each column
+  q3_output[[i]] <- sd(mtcars[[i]]) #stores the calculated sd in the vector
+}
+names(q3_output) <- names(mtcars) #labels the columns with the original column names 
+q3_output
+```
+

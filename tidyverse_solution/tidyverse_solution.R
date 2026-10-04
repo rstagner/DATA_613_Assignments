@@ -88,7 +88,7 @@ exp_means_loop_2b <- function(n = 5, reps = 10000) {
 }
 exp_means_loop_2b()
 
-#3b using for loops for samples of 5, 10, 20
+#2c using for loops for samples of 5, 10, 20
 
 #create a loop that runs the function from 2a (with the map function) with
 #the requested number of reps 
@@ -96,3 +96,18 @@ exp_means_loop_2b()
 for (n in c(5, 10, 20)) {
   print(exp_means_loop_2a(n))
 }
+
+#Question 3
+
+head(mtcars)
+ncol(mtcars)
+seq_along(mtcars)
+mtcars[[1]]
+
+
+q3_output <- vector("double", ncol(mtcars)) #creates the vector with same # of columns as the original df
+for (i in seq_along(mtcars)) {      #I learned the fcn seq_along is to find position numbers
+  q3_output[[i]] <- sd(mtcars[[i]]) #the for loop that takes each column and calculates sd
+}
+names(q3_output) <- names(mtcars) #labels the vector columns with the original column names from the df
+q3_output
