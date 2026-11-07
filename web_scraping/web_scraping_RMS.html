@@ -2289,14 +2289,82 @@ vertical-align: -.125em;
 <span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>  <span class="at">overwrite =</span> <span class="cn">FALSE</span>,</span>
 <span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>  <span class="at">progress =</span> <span class="cn">TRUE</span>,</span>
 <span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>  <span class="at">api_key =</span> <span class="fu">Sys.getenv</span>(<span class="st">&quot;IPUMS_API_KEY&quot;</span>)</span>
-<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a><span class="co"># Read the File</span></span>
-<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>data_file <span class="ot">&lt;-</span> <span class="st">&quot;nhgis0001_csv.zip&quot;</span></span>
-<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>nhgis_data <span class="ot">&lt;-</span> <span class="fu">read_ipums_agg</span>(data_file)</span>
-<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a><span class="co">#look at file metadata</span></span>
-<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a><span class="fu">ipums_var_info</span>(nhgis_data)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>The file is read and examined afterward with the following code:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Read the File</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>data_file <span class="ot">&lt;-</span> <span class="st">&quot;nhgis0001_csv.zip&quot;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>nhgis_data <span class="ot">&lt;-</span> <span class="fu">read_ipums_agg</span>(data_file)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Use of data from IPUMS NHGIS is subject to conditions including that users should cite the data appropriately. Use command `ipums_conditions()` for more details.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 51 Columns: 38
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: &quot;,&quot;
+chr  (9): GISJOIN, STUSAB, STATE, STATEA, AREALAND, AREAWAT, ANPSADPI, FUNCS...
+dbl  (6): YEAR, DIVISIONA, REGIONA, INTPTLAT, INTPTLNG, ET1001
+lgl (23): ANRCA, AIANHHA, RES_ONLYA, TRUSTA, AIANCC, RES_TRSTA, BLOCKA, BLCK...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">#look at file metadata</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ipums_var_info</span>(nhgis_data)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 38 × 4
+   var_name  var_label                                       var_desc val_labels
+   &lt;chr&gt;     &lt;chr&gt;                                           &lt;chr&gt;    &lt;list&gt;    
+ 1 GISJOIN   GIS Join Match Code                             &quot;&quot;       &lt;tibble&gt;  
+ 2 YEAR      Data File Year                                  &quot;&quot;       &lt;tibble&gt;  
+ 3 STUSAB    State/US Abbreviation                           &quot;&quot;       &lt;tibble&gt;  
+ 4 ANRCA     Alaska Native Regional Corporation Code         &quot;&quot;       &lt;tibble&gt;  
+ 5 AIANHHA   American Indian Area/Alaska Native Area/Hawaii… &quot;&quot;       &lt;tibble&gt;  
+ 6 RES_ONLYA American Indian Reservation [excluding trust l… &quot;&quot;       &lt;tibble&gt;  
+ 7 TRUSTA    American Indian Reservation [trust lands only]… &quot;&quot;       &lt;tibble&gt;  
+ 8 AIANCC    American Indian/Alaska Native Area Class Code   &quot;&quot;       &lt;tibble&gt;  
+ 9 RES_TRSTA Reservation/Trust Lands Code                    &quot;&quot;       &lt;tibble&gt;  
+10 BLOCKA    Block Code                                      &quot;&quot;       &lt;tibble&gt;  
+# ℹ 28 more rows</code></pre>
+</div>
+</div>
+</section>
+<section id="part-3-data-cleaning" class="level3">
+<h3 class="anchored" data-anchor-id="part-3-data-cleaning">Part 3: Data Cleaning</h3>
+<p>As requested, I selected and renamed the columns of the dataframe with the following code:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Part 3 - Data Cleaning</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co">#select and rename columns</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>nhgis_clean <span class="ot">&lt;-</span> nhgis_data <span class="sc">|&gt;</span> </span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">gisjoin =</span> GISJOIN,</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">year =</span> YEAR,</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">state_abbr =</span> STUSAB,</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">division =</span> DIVISIONA,</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">region =</span> REGIONA,</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">state_name =</span> STATE,</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">state_code =</span> STATEA,</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">land_area =</span> AREALAND,</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">water_area =</span> AREAWAT,</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">total_pop =</span> ET1001</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a><span class="co">#Check to make sure it worked</span></span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(nhgis_clean) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 10
+  gisjoin  year state_abbr division region state_name state_code land_area 
+  &lt;chr&gt;   &lt;dbl&gt; &lt;chr&gt;         &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;     
+1 G010     1990 AL                6      3 Alabama    01         0131443117
+2 G020     1990 AK                9      4 Alaska     02         1477267515
+3 G040     1990 AZ                8      4 Arizona    04         0294333362
+4 G050     1990 AR                7      3 Arkansas   05         0134875069
+5 G060     1990 CA                9      4 California 06         0403970679
+6 G080     1990 CO                8      4 Colorado   08         0268657691
+# ℹ 2 more variables: water_area &lt;chr&gt;, total_pop &lt;dbl&gt;</code></pre>
+</div>
 </div>
 </section>
 </section>

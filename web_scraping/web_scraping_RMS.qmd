@@ -63,11 +63,41 @@ downloaded_files <- download_extract(
   progress = TRUE,
   api_key = Sys.getenv("IPUMS_API_KEY")
 )
+```
 
+The file is read and examined afterward with the following code:
+
+```{r}
 # Read the File
 data_file <- "nhgis0001_csv.zip"
 nhgis_data <- read_ipums_agg(data_file)
 
 #look at file metadata
 ipums_var_info(nhgis_data)
+```
+
+### Part 3: Data Cleaning
+
+As requested, I selected and renamed the columns of the dataframe with the following code:
+
+```{r}
+#Part 3 - Data Cleaning
+#select and rename columns
+
+nhgis_clean <- nhgis_data |> 
+  select(
+    gisjoin = GISJOIN,
+    year = YEAR,
+    state_abbr = STUSAB,
+    division = DIVISIONA,
+    region = REGIONA,
+    state_name = STATE,
+    state_code = STATEA,
+    land_area = AREALAND,
+    water_area = AREAWAT,
+    total_pop = ET1001
+  )
+
+#Check to make sure it worked
+head(nhgis_clean) 
 ```
