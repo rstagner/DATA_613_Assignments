@@ -8,27 +8,66 @@ format:
 editor: visual
 ---
 
+Loading required packages
+
+```{r}
+# Loading packages
+pacman::p_load(rvest, tidyverse, xml2, ipumsr)
+```
+
 ## Section 1
 
 ### Part 1: Authentication
 
-I followed the steps in the assignment to create my account, generate an API key, and set it in my environment.
+I followed the steps in the assignment to create my account, generate an API key, and set it in my environment. Those steps are not included here for security, but I used the `set_ipums_api_key()` function to do this.
 
 ### Part 2: The Data Challenge
 
-## Running Code
+In this section, I used the commands listed in the assignment instructions to 1) Define, 2) Submit, 3) Wait & Download, and 4) Read the required file (1990 State Population Status for all states). I had to go to the [IPUMS website](https://tech.popdata.org/ipumsr/articles/ipums.html) to get help with the commands.
 
-When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
-
-```{r}
-1 + 1
-```
-
-You can add options to executable code like this
+Note: I also set this chunk of code to `eval: false` so that the request does not download the data again.
 
 ```{r}
-#| echo: false
-2 * 2
-```
+#| eval: false
 
-The `echo: false` option disables the printing of code (only output is displayed).
+# Part 2 - The Data Challenge
+# Extract 1990 State Populations Status (Table NP1) for all states
+# First, define the request
+nhgis_request <- define_extract_agg(
+  collection = "nhgis",
+  description = "NHGIS Data via IPUMS API",
+  datasets = ds_spec(
+    "1990_STF1",
+    data_tables = "NP1",
+    geog_levels = "state"
+  )
+)
+# Second, submit the request
+submit_extract(nhgis_request, api_key = Sys.getenv("IPUMS_API_KEY"))
+
+# Wait 
+nhgis_request <- wait_for_extract(
+  "nhgis:1",
+  initial_delay_seconds = 0,
+  max_delay_seconds = 300,
+  timeout_seconds = 10800,
+  verbose = TRUE,
+  api_key = Sys.getenv("IPUMS_API_KEY")
+)
+
+# Download
+downloaded_files <- download_extract(
+  nhgis_request,
+  download_dir = getwd(),
+  overwrite = FALSE,
+  progress = TRUE,
+  api_key = Sys.getenv("IPUMS_API_KEY")
+)
+
+# Read the File
+data_file <- "nhgis0001_csv.zip"
+nhgis_data <- read_ipums_agg(data_file)
+
+#look at file metadata
+ipums_var_info(nhgis_data)
+```
