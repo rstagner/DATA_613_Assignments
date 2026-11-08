@@ -2480,9 +2480,9 @@ lgl (23): ANRCA, AIANHHA, RES_ONLYA, TRUSTA, AIANCC, RES_TRSTA, BLOCKA, BLCK...
 </section>
 <section id="part-2---clean-the-column-names" class="level3">
 <h3 class="anchored" data-anchor-id="part-2---clean-the-column-names">Part 2 - Clean the Column Names</h3>
-<p>I decided to manually rename the columns instead of using the <code>janitor</code> package because some names were blank, some had brackets (<code>[]</code>) and the extra text in the first data row had information with the year the values were from. Then, I deleted this first row of extra text.</p>
+<p>I decided to manually rename the columns instead of using the <code>janitor</code> package because some names were blank, some had brackets (<code>[]</code>), and the extra text in the first data row had information with the year the values were from. Then, I deleted this first row of extra text as well as the last four rows which had summary data.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Part 2 - Clean the names</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Part 2 - Clean the names &amp; get rid of extra rows</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="co">#View the column names</span></span>
 <span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(ranking_table)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -2493,7 +2493,7 @@ lgl (23): ANRCA, AIANHHA, RES_ONLYA, TRUSTA, AIANCC, RES_TRSTA, BLOCKA, BLCK...
  [7] &quot;Pop. perelec. vote(2020)[c]&quot; &quot;Pop. perseat(2020)[a]&quot;      
  [9] &quot;% US(2020)&quot;                  &quot;% EC(2020)&quot;                 </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co">#rename columns</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co">#rename them</span></span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(ranking_table) <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;rank&quot;</span>,</span>
 <span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;state&quot;</span>,</span>
@@ -2507,14 +2507,14 @@ lgl (23): ANRCA, AIANHHA, RES_ONLYA, TRUSTA, AIANCC, RES_TRSTA, BLOCKA, BLCK...
 <span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;electoral_college_percent_2020&quot;</span></span>
 <span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a><span class="co">#get rid of the first row of extra text under the column names</span></span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a><span class="co">#get rid of the first row of extra text &amp; the last 4 rows of summary data</span></span>
 <span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>clean_table <span class="ot">&lt;-</span> ranking_table <span class="sc">|&gt;</span></span>
-<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice</span>(<span class="sc">-</span><span class="dv">1</span>)</span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice</span>(<span class="dv">2</span><span class="sc">:</span>(<span class="fu">n</span>() <span class="sc">-</span> <span class="dv">4</span>))</span>
 <span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a><span class="co">#view the table</span></span>
 <span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a>clean_table</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 60 × 10
+<pre><code># A tibble: 56 × 10
    rank  state          population_estimate_2025 population_2020 house_seats
    &lt;chr&gt; &lt;chr&gt;          &lt;chr&gt;                    &lt;chr&gt;           &lt;chr&gt;      
  1 1     California     39,355,309               39,538,223      52         
@@ -2527,11 +2527,49 @@ lgl (23): ANRCA, AIANHHA, RES_ONLYA, TRUSTA, AIANCC, RES_TRSTA, BLOCKA, BLCK...
  8 8     Georgia        11,302,748               10,711,908      14         
  9 9     North Carolina 11,197,968               10,439,388      14         
 10 10    Michigan       10,127,884               10,077,331      13         
-# ℹ 50 more rows
+# ℹ 46 more rows
 # ℹ 5 more variables: house_seat_percent &lt;chr&gt;,
 #   population_per_electoral_vote_2020 &lt;chr&gt;,
 #   population_per_house_seat_2020 &lt;chr&gt;, us_population_percent_2020 &lt;chr&gt;,
 #   electoral_college_percent_2020 &lt;chr&gt;</code></pre>
+</div>
+</div>
+</section>
+<section id="part-3---set-column-class-clean-up-state-names-and-include-nas" class="level3">
+<h3 class="anchored" data-anchor-id="part-3---set-column-class-clean-up-state-names-and-include-nas">Part 3 - Set Column Class, Clean Up State Names, and include NAs</h3>
+<p>Finally, I corrected the column types with the <code>mutate()</code> function and <code>as.integer()</code>, <code>parse_number()</code> and used math functions to convert percentage values to decimals. I also noticed that there were some text in brackets in some of the territory names and used <code>str_remove()</code> to get rid of those.</p>
+<p>This workflow forced <code>NA&#39;s</code> into the integer column, and also converted some of the <code>--</code> values in other columns to <code>NA</code> as well, which is what we wanted.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Part 3 - Fix the column types &amp; get rid of extra text in state column</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>clean_table2 <span class="ot">&lt;-</span> clean_table <span class="sc">|&gt;</span> <span class="fu">mutate</span>(</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">rank =</span> <span class="fu">as.integer</span>(rank),</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">state =</span> <span class="fu">str_remove_all</span>(state, <span class="st">&quot;</span><span class="sc">\\</span><span class="st">[[^]]*</span><span class="sc">\\</span><span class="st">]&quot;</span>),</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">population_estimate_2025 =</span> <span class="fu">parse_number</span>(population_estimate_2025),</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">population_2020 =</span> <span class="fu">parse_number</span>(population_2020),</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">house_seats =</span> <span class="fu">parse_number</span>(house_seats),</span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">house_seat_percent =</span> (<span class="fu">parse_number</span>(house_seat_percent)<span class="sc">/</span><span class="dv">100</span>),</span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">population_per_electoral_vote_2020 =</span> <span class="fu">parse_number</span>(population_per_electoral_vote_2020),</span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">population_per_house_seat_2020 =</span> <span class="fu">parse_number</span>(population_per_house_seat_2020),</span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">us_population_percent_2020 =</span> (<span class="fu">parse_number</span>(us_population_percent_2020)<span class="sc">/</span><span class="dv">100</span>),</span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">electoral_college_percent_2020 =</span> (<span class="fu">parse_number</span>(electoral_college_percent_2020)<span class="sc">/</span><span class="dv">100</span>)</span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a><span class="co">#check work</span></span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(clean_table2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 56
+Columns: 10
+$ rank                               &lt;int&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, …
+$ state                              &lt;chr&gt; &quot;California&quot;, &quot;Texas&quot;, &quot;Florida&quot;, &quot;…
+$ population_estimate_2025           &lt;dbl&gt; 39355309, 31709821, 23462518, 20002…
+$ population_2020                    &lt;dbl&gt; 39538223, 29145505, 21538187, 20201…
+$ house_seats                        &lt;dbl&gt; 52, 38, 28, 26, 17, 17, 15, 14, 14,…
+$ house_seat_percent                 &lt;dbl&gt; 0.1195, 0.0874, 0.0644, 0.0598, 0.0…
+$ population_per_electoral_vote_2020 &lt;dbl&gt; 732189, 728638, 717940, 721473, 684…
+$ population_per_house_seat_2020     &lt;dbl&gt; 760350, 766987, 769221, 776971, 764…
+$ us_population_percent_2020         &lt;dbl&gt; 0.11800, 0.08698, 0.06428, 0.06029,…
+$ electoral_college_percent_2020     &lt;dbl&gt; 0.1004, 0.0743, 0.0558, 0.0520, 0.0…</code></pre>
 </div>
 </div>
 </section>

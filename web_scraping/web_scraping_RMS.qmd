@@ -161,15 +161,15 @@ ranking_table
 
 ### Part 2 - Clean the Column Names
 
-I decided to manually rename the columns instead of using the `janitor` package because some names were blank, some had brackets (`[]`) and the extra text in the first data row had information with the year the values were from. Then, I deleted this first row of extra text.
+I decided to manually rename the columns instead of using the `janitor` package because some names were blank, some had brackets (`[]`), and the extra text in the first data row had information with the year the values were from. Then, I deleted this first row of extra text as well as the last four rows which had summary data.
 
 ```{r}
-#Part 2 - Clean the names
+#Part 2 - Clean the names & get rid of extra rows
 
 #View the column names
 names(ranking_table)
 
-#rename columns
+#rename them
 names(ranking_table) <- c(
   "rank",
   "state",
@@ -183,10 +183,37 @@ names(ranking_table) <- c(
   "electoral_college_percent_2020"
 )
 
-#get rid of the first row of extra text under the column names
+#get rid of the first row of extra text & the last 4 rows of summary data
 clean_table <- ranking_table |>
-  slice(-1)
+  slice(2:(n() - 4))
 
 #view the table
 clean_table
+```
+
+### Part 3 - Set Column Class, Clean Up State Names, and include NAs
+
+Finally, I corrected the column types with the `mutate()` function and `as.integer()`, `parse_number()` and used math functions to convert percentage values to decimals. I also noticed that there were some text in brackets in some of the territory names and used `str_remove()` to get rid of those.
+
+This workflow forced `NA's` into the integer column, and also converted some of the `--` values in other columns to `NA` as well, which is what we wanted.
+
+```{r}
+#| warning: false
+#Part 3 - Fix the column types & get rid of extra text in state column
+
+clean_table2 <- clean_table |> mutate(
+  rank = as.integer(rank),
+  state = str_remove_all(state, "\\[[^]]*\\]"),
+  population_estimate_2025 = parse_number(population_estimate_2025),
+  population_2020 = parse_number(population_2020),
+  house_seats = parse_number(house_seats),
+  house_seat_percent = (parse_number(house_seat_percent)/100),
+  population_per_electoral_vote_2020 = parse_number(population_per_electoral_vote_2020),
+  population_per_house_seat_2020 = parse_number(population_per_house_seat_2020),
+  us_population_percent_2020 = (parse_number(us_population_percent_2020)/100),
+  electoral_college_percent_2020 = (parse_number(electoral_college_percent_2020)/100)
+)
+
+#check work
+glimpse(clean_table2)
 ```
