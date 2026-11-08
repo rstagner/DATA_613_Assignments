@@ -118,3 +118,19 @@ nhgis_clean <- nhgis_clean |>
 
 head(nhgis_clean) #check to make sure it worked
 ```
+
+### Part 5: Find Water Share
+
+Similar to above, I needed to convert the `water_area` vector to a numeric class and calculate the water share with the given equation: water share = water area /(land area + water area). Once again, I used the `mutate()` function for both steps.
+
+```{r}
+#Part 5 calculate Water Share
+
+nhgis_clean <- nhgis_clean |> 
+  mutate(
+    water_area = parse_number(water_area), #convert water area to numeric
+    water_share = water_area / (land_area + water_area) #calculate the new column
+  )
+
+head(nhgis_clean) #check work
+```

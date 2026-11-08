@@ -2406,6 +2406,34 @@ lgl (23): ANRCA, AIANHHA, RES_ONLYA, TRUSTA, AIANCC, RES_TRSTA, BLOCKA, BLCK...
 </div>
 </div>
 </section>
+<section id="part-5-find-water-share" class="level3">
+<h3 class="anchored" data-anchor-id="part-5-find-water-share">Part 5: Find Water Share</h3>
+<p>Similar to above, I needed to convert the <code>water_area</code> vector to a numeric class and calculate the water share with the given equation: water share = water area /(land area + water area). Once again, I used the <code>mutate()</code> function for both steps.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Part 5 calculate Water Share</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>nhgis_clean <span class="ot">&lt;-</span> nhgis_clean <span class="sc">|&gt;</span> </span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">water_area =</span> <span class="fu">parse_number</span>(water_area), <span class="co">#convert water area to numeric</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">water_share =</span> water_area <span class="sc">/</span> (land_area <span class="sc">+</span> water_area) <span class="co">#calculate the new column</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(nhgis_clean) <span class="co">#check work</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 12
+  gisjoin  year state_abbr division region state_name state_code  land_area
+  &lt;chr&gt;   &lt;dbl&gt; &lt;chr&gt;         &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;           &lt;dbl&gt;
+1 G010     1990 AL                6      3 Alabama    01          131443117
+2 G020     1990 AK                9      4 Alaska     02         1477267515
+3 G040     1990 AZ                8      4 Arizona    04          294333362
+4 G050     1990 AR                7      3 Arkansas   05          134875069
+5 G060     1990 CA                9      4 California 06          403970679
+6 G080     1990 CO                8      4 Colorado   08          268657691
+# ℹ 4 more variables: water_area &lt;dbl&gt;, total_pop &lt;dbl&gt;, pop_density &lt;dbl&gt;,
+#   water_share &lt;dbl&gt;</code></pre>
+</div>
+</div>
+</section>
 </section>
 
 </main>
