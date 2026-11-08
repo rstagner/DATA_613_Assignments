@@ -2367,6 +2367,45 @@ lgl (23): ANRCA, AIANHHA, RES_ONLYA, TRUSTA, AIANCC, RES_TRSTA, BLOCKA, BLCK...
 </div>
 </div>
 </section>
+<section id="part-4-find-the-population-density" class="level3">
+<h3 class="anchored" data-anchor-id="part-4-find-the-population-density">Part 4: Find the population density</h3>
+<p>In order to do this, I had to first convert the <code>land_area</code> vector to a numeric class, as it was originally a character class. Then, I used the equation provided, (population density = total population / land area), to calculate the population density of each state. I used the <code>mutate()</code> function to do both.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Part 4 Find Population Density</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(nhgis_clean) <span class="co">#check column types</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 10
+  gisjoin  year state_abbr division region state_name state_code land_area 
+  &lt;chr&gt;   &lt;dbl&gt; &lt;chr&gt;         &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;     
+1 G010     1990 AL                6      3 Alabama    01         0131443117
+2 G020     1990 AK                9      4 Alaska     02         1477267515
+3 G040     1990 AZ                8      4 Arizona    04         0294333362
+4 G050     1990 AR                7      3 Arkansas   05         0134875069
+5 G060     1990 CA                9      4 California 06         0403970679
+6 G080     1990 CO                8      4 Colorado   08         0268657691
+# ℹ 2 more variables: water_area &lt;chr&gt;, total_pop &lt;dbl&gt;</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>nhgis_clean <span class="ot">&lt;-</span> nhgis_clean <span class="sc">|&gt;</span> </span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">land_area =</span> <span class="fu">parse_number</span>(land_area), <span class="co">#need to convert this to numeric from chr</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">pop_density =</span> total_pop <span class="sc">/</span> land_area <span class="co">#calculate the new column</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(nhgis_clean) <span class="co">#check to make sure it worked</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 11
+  gisjoin  year state_abbr division region state_name state_code  land_area
+  &lt;chr&gt;   &lt;dbl&gt; &lt;chr&gt;         &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;           &lt;dbl&gt;
+1 G010     1990 AL                6      3 Alabama    01          131443117
+2 G020     1990 AK                9      4 Alaska     02         1477267515
+3 G040     1990 AZ                8      4 Arizona    04          294333362
+4 G050     1990 AR                7      3 Arkansas   05          134875069
+5 G060     1990 CA                9      4 California 06          403970679
+6 G080     1990 CO                8      4 Colorado   08          268657691
+# ℹ 3 more variables: water_area &lt;chr&gt;, total_pop &lt;dbl&gt;, pop_density &lt;dbl&gt;</code></pre>
+</div>
+</div>
+</section>
 </section>
 
 </main>

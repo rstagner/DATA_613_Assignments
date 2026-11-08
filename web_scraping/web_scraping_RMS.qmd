@@ -101,3 +101,20 @@ nhgis_clean <- nhgis_data |>
 #Check to make sure it worked
 head(nhgis_clean) 
 ```
+
+### Part 4: Find the population density
+
+In order to do this, I had to first convert the `land_area` vector to a numeric class, as it was originally a character class. Then, I used the equation provided, (population density = total population / land area), to calculate the population density of each state. I used the `mutate()` function to do both.
+
+```{r}
+#Part 4 Find Population Density
+head(nhgis_clean) #check column types
+
+nhgis_clean <- nhgis_clean |> 
+  mutate(
+    land_area = parse_number(land_area), #need to convert this to numeric from chr
+    pop_density = total_pop / land_area #calculate the new column
+  )
+
+head(nhgis_clean) #check to make sure it worked
+```
