@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Rachel Stagner">
-<meta name="dcterms.date" content="2026-11-07">
+<meta name="dcterms.date" content="2026-11-08">
 
 <title>Web Scraping Assignment</title>
 <style>
@@ -2229,7 +2229,7 @@ vertical-align: -.125em;
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">November 7, 2026</p>
+      <p class="date">November 8, 2026</p>
     </div>
   </div>
   
@@ -2437,21 +2437,22 @@ lgl (23): ANRCA, AIANHHA, RES_ONLYA, TRUSTA, AIANCC, RES_TRSTA, BLOCKA, BLCK...
 </section>
 <section id="section-2---scraping-with-rvest" class="level2">
 <h2 class="anchored" data-anchor-id="section-2---scraping-with-rvest">Section 2 - Scraping with Rvest</h2>
-<p>First, I loaded the website using the Rvest command <code>read_html()</code>. In my browser, I viewed the source code for the website to find the tag or class that is associated with the “State and Territory Rankings” table. The html code on that page is a mess, and it was impossible to find it by scanning by eye—even when I found the start of the table in the code—because all the table’s styling and class information is on one line of html code.</p>
-<p>Eventually, I used ChatGPT to find it by pasting in the website and asking it to find the associated class id. Here’s the exact prompt I used:</p>
-<p><em>“I need the .class id for the rankings table on this webpage to use with rvest: view-source:https://en.wikipedia.org/wiki/List_of_U.S._states_and_territories_by_population”</em></p>
-<p>Otherwise, I wrote the R code myself by following the steps outlined on the <a href="https://rvest.tidyverse.org/">rvest package website</a>.</p>
+<p>I used the code included in one of our resource files, <code>WebscrapingTables.R</code> to find the first e</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co">#load the website into a variable</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>url <span class="ot">&lt;-</span> <span class="st">&quot;https://en.wikipedia.org/wiki/List_of_U.S._states_and_territories_by_population&quot;</span></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="co">#reading the hmtl page</span></span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>state_rankings <span class="ot">&lt;-</span> <span class="fu">read_html</span>(url)</span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="co">#scrape the table and store it as a tibble</span></span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>state_rankings <span class="sc">|&gt;</span> </span>
-<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_element</span>(<span class="st">&quot;table.wikitable.sortable&quot;</span>) <span class="sc">|&gt;</span></span>
-<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_table</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Section 2 with the code from the Example File</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>wikiurl <span class="ot">&lt;-</span> <span class="fu">read_html</span>(</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;https://en.wikipedia.org/wiki/List_of_U.S._states_and_territories_by_population&quot;</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="co">#Creates a tibble of all of tables on the site</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>datatables <span class="ot">&lt;-</span> wikiurl <span class="sc">|&gt;</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_table</span>()</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a><span class="co">#choose the first table and store it</span></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>ranking_table <span class="ot">&lt;-</span> datatables[[<span class="dv">1</span>]]</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a><span class="co">#view it to confirm</span></span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>ranking_table</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 61 × 10
    ``    `State or territory` Census population[8][9][a…¹ Census population[8]…²
