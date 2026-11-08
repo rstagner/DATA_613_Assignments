@@ -134,3 +134,27 @@ nhgis_clean <- nhgis_clean |>
 
 head(nhgis_clean) #check work
 ```
+
+## Section 2 - Scraping with Rvest
+
+First, I loaded the website using the Rvest command `read_html()`. In my browser, I viewed the source code for the website to find the tag or class that is associated with the "State and Territory Rankings" table. The html code on that page is a mess, and it was impossible to find it by scanning by eye—even when I found the start of the table in the code—because all the table's styling and class information is on one line of html code.
+
+Eventually, I used ChatGPT to find it by pasting in the website and asking it to find the associated class id. Here's the exact prompt I used:
+
+*"I need the .class id for the rankings table on this webpage to use with rvest: view-source:https://en.wikipedia.org/wiki/List_of_U.S.\_states_and_territories_by_population"*
+
+Otherwise, I wrote the R code myself by following the steps outlined on the [rvest package website](https://rvest.tidyverse.org/).
+
+```{r}
+#load the website into a variable
+url <- "https://en.wikipedia.org/wiki/List_of_U.S._states_and_territories_by_population"
+
+#reading the hmtl page
+state_rankings <- read_html(url)
+
+#scrape the table and store it as a tibble
+state_rankings |> 
+  html_element("table.wikitable.sortable") |>
+  html_table()
+
+```

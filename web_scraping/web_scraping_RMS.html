@@ -2435,6 +2435,46 @@ lgl (23): ANRCA, AIANHHA, RES_ONLYA, TRUSTA, AIANCC, RES_TRSTA, BLOCKA, BLCK...
 </div>
 </section>
 </section>
+<section id="section-2---scraping-with-rvest" class="level2">
+<h2 class="anchored" data-anchor-id="section-2---scraping-with-rvest">Section 2 - Scraping with Rvest</h2>
+<p>First, I loaded the website using the Rvest command <code>read_html()</code>. In my browser, I viewed the source code for the website to find the tag or class that is associated with the “State and Territory Rankings” table. The html code on that page is a mess, and it was impossible to find it by scanning by eye—even when I found the start of the table in the code—because all the table’s styling and class information is on one line of html code.</p>
+<p>Eventually, I used ChatGPT to find it by pasting in the website and asking it to find the associated class id. Here’s the exact prompt I used:</p>
+<p><em>“I need the .class id for the rankings table on this webpage to use with rvest: view-source:https://en.wikipedia.org/wiki/List_of_U.S._states_and_territories_by_population”</em></p>
+<p>Otherwise, I wrote the R code myself by following the steps outlined on the <a href="https://rvest.tidyverse.org/">rvest package website</a>.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co">#load the website into a variable</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>url <span class="ot">&lt;-</span> <span class="st">&quot;https://en.wikipedia.org/wiki/List_of_U.S._states_and_territories_by_population&quot;</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="co">#reading the hmtl page</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>state_rankings <span class="ot">&lt;-</span> <span class="fu">read_html</span>(url)</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="co">#scrape the table and store it as a tibble</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>state_rankings <span class="sc">|&gt;</span> </span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_element</span>(<span class="st">&quot;table.wikitable.sortable&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_table</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 61 × 10
+   ``    `State or territory` Census population[8][9][a…¹ Census population[8]…²
+   &lt;chr&gt; &lt;chr&gt;                &lt;chr&gt;                       &lt;chr&gt;                 
+ 1 &quot;&quot;    State or territory   July 1, 2025 (est.)         April 1, 2020         
+ 2 &quot;1&quot;   California           39,355,309                  39,538,223            
+ 3 &quot;2&quot;   Texas                31,709,821                  29,145,505            
+ 4 &quot;3&quot;   Florida              23,462,518                  21,538,187            
+ 5 &quot;4&quot;   New York             20,002,427                  20,201,249            
+ 6 &quot;5&quot;   Pennsylvania         13,059,432                  13,002,700            
+ 7 &quot;6&quot;   Illinois             12,719,141                  12,812,508            
+ 8 &quot;7&quot;   Ohio                 11,900,510                  11,799,448            
+ 9 &quot;8&quot;   Georgia              11,302,748                  10,711,908            
+10 &quot;9&quot;   North Carolina       11,197,968                  10,439,388            
+# ℹ 51 more rows
+# ℹ abbreviated names: ¹​`Census population[8][9][a]`,
+#   ²​`Census population[8][9][a]`
+# ℹ 6 more variables: `House seats[b]` &lt;chr&gt;, `House seats[b]` &lt;chr&gt;,
+#   `Pop. perelec. vote(2020)[c]` &lt;chr&gt;, `Pop. perseat(2020)[a]` &lt;chr&gt;,
+#   `% US(2020)` &lt;chr&gt;, `% EC(2020)` &lt;chr&gt;</code></pre>
+</div>
+</div>
+</section>
 
 </main>
 <!-- /main column -->
