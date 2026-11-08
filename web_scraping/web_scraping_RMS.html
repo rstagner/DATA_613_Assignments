@@ -2244,7 +2244,7 @@ vertical-align: -.125em;
 <p>Loading required packages</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Loading packages</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(rvest, tidyverse, xml2, ipumsr)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(rvest, tidyverse, xml2, ipumsr, janitor)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <section id="section-1" class="level2">
 <h2 class="anchored" data-anchor-id="section-1">Section 1</h2>
@@ -2437,7 +2437,9 @@ lgl (23): ANRCA, AIANHHA, RES_ONLYA, TRUSTA, AIANCC, RES_TRSTA, BLOCKA, BLCK...
 </section>
 <section id="section-2---scraping-with-rvest" class="level2">
 <h2 class="anchored" data-anchor-id="section-2---scraping-with-rvest">Section 2 - Scraping with Rvest</h2>
-<p>I used the code included in one of our resource files, <code>WebscrapingTables.R</code> to find the first e</p>
+<section id="part-1---import-the-correct-table" class="level3">
+<h3 class="anchored" data-anchor-id="part-1---import-the-correct-table">Part 1 - Import the correct Table</h3>
+<p>I used the code included in one of our resource files, <code>WebscrapingTables.R</code> to first create a tibble of all of the tables on the website, then save the first one as the one that we want to work with.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Section 2 with the code from the Example File</span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>wikiurl <span class="ot">&lt;-</span> <span class="fu">read_html</span>(</span>
@@ -2475,6 +2477,64 @@ lgl (23): ANRCA, AIANHHA, RES_ONLYA, TRUSTA, AIANCC, RES_TRSTA, BLOCKA, BLCK...
 #   `% US(2020)` &lt;chr&gt;, `% EC(2020)` &lt;chr&gt;</code></pre>
 </div>
 </div>
+</section>
+<section id="part-2---clean-the-column-names" class="level3">
+<h3 class="anchored" data-anchor-id="part-2---clean-the-column-names">Part 2 - Clean the Column Names</h3>
+<p>I decided to manually rename the columns instead of using the <code>janitor</code> package because some names were blank, some had brackets (<code>[]</code>) and the extra text in the first data row had information with the year the values were from. Then, I deleted this first row of extra text.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Part 2 - Clean the names</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="co">#View the column names</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(ranking_table)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] &quot;&quot;                            &quot;State or territory&quot;         
+ [3] &quot;Census population[8][9][a]&quot;  &quot;Census population[8][9][a]&quot; 
+ [5] &quot;House seats[b]&quot;              &quot;House seats[b]&quot;             
+ [7] &quot;Pop. perelec. vote(2020)[c]&quot; &quot;Pop. perseat(2020)[a]&quot;      
+ [9] &quot;% US(2020)&quot;                  &quot;% EC(2020)&quot;                 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co">#rename columns</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(ranking_table) <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;rank&quot;</span>,</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;state&quot;</span>,</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;population_estimate_2025&quot;</span>,</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;population_2020&quot;</span>,</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;house_seats&quot;</span>,</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;house_seat_percent&quot;</span>,</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;population_per_electoral_vote_2020&quot;</span>,</span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;population_per_house_seat_2020&quot;</span>,</span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;us_population_percent_2020&quot;</span>,</span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;electoral_college_percent_2020&quot;</span></span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a><span class="co">#get rid of the first row of extra text under the column names</span></span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>clean_table <span class="ot">&lt;-</span> ranking_table <span class="sc">|&gt;</span></span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice</span>(<span class="sc">-</span><span class="dv">1</span>)</span>
+<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a><span class="co">#view the table</span></span>
+<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a>clean_table</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 60 × 10
+   rank  state          population_estimate_2025 population_2020 house_seats
+   &lt;chr&gt; &lt;chr&gt;          &lt;chr&gt;                    &lt;chr&gt;           &lt;chr&gt;      
+ 1 1     California     39,355,309               39,538,223      52         
+ 2 2     Texas          31,709,821               29,145,505      38         
+ 3 3     Florida        23,462,518               21,538,187      28         
+ 4 4     New York       20,002,427               20,201,249      26         
+ 5 5     Pennsylvania   13,059,432               13,002,700      17         
+ 6 6     Illinois       12,719,141               12,812,508      17         
+ 7 7     Ohio           11,900,510               11,799,448      15         
+ 8 8     Georgia        11,302,748               10,711,908      14         
+ 9 9     North Carolina 11,197,968               10,439,388      14         
+10 10    Michigan       10,127,884               10,077,331      13         
+# ℹ 50 more rows
+# ℹ 5 more variables: house_seat_percent &lt;chr&gt;,
+#   population_per_electoral_vote_2020 &lt;chr&gt;,
+#   population_per_house_seat_2020 &lt;chr&gt;, us_population_percent_2020 &lt;chr&gt;,
+#   electoral_college_percent_2020 &lt;chr&gt;</code></pre>
+</div>
+</div>
+</section>
 </section>
 
 </main>

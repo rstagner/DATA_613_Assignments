@@ -12,7 +12,7 @@ Loading required packages
 
 ```{r}
 # Loading packages
-pacman::p_load(rvest, tidyverse, xml2, ipumsr)
+pacman::p_load(rvest, tidyverse, xml2, ipumsr, janitor)
 ```
 
 ## Section 1
@@ -137,7 +137,9 @@ head(nhgis_clean) #check work
 
 ## Section 2 - Scraping with Rvest
 
-I used the code included in one of our resource files, `WebscrapingTables.R` to find the first e
+### Part 1 - Import the correct Table
+
+I used the code included in one of our resource files, `WebscrapingTables.R` to first create a tibble of all of the tables on the website, then save the first one as the one that we want to work with.
 
 ```{r}
 #Section 2 with the code from the Example File
@@ -155,4 +157,36 @@ ranking_table <- datatables[[1]]
 #view it to confirm
 ranking_table
 
+```
+
+### Part 2 - Clean the Column Names
+
+I decided to manually rename the columns instead of using the `janitor` package because some names were blank, some had brackets (`[]`) and the extra text in the first data row had information with the year the values were from. Then, I deleted this first row of extra text.
+
+```{r}
+#Part 2 - Clean the names
+
+#View the column names
+names(ranking_table)
+
+#rename columns
+names(ranking_table) <- c(
+  "rank",
+  "state",
+  "population_estimate_2025",
+  "population_2020",
+  "house_seats",
+  "house_seat_percent",
+  "population_per_electoral_vote_2020",
+  "population_per_house_seat_2020",
+  "us_population_percent_2020",
+  "electoral_college_percent_2020"
+)
+
+#get rid of the first row of extra text under the column names
+clean_table <- ranking_table |>
+  slice(-1)
+
+#view the table
+clean_table
 ```
